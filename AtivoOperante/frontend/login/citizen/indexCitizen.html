@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Citizen</title>
+    <link rel="stylesheet" href="cssCitizen.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Formulário de Denúncias</h1>
+
+        <form id="formDenuncia">
+            <label for="titulo">Título:</label><br>
+            <input type="text" id="titulo" name="titulo"><br><br>
+
+            <label for="descricao">Descrição:</label><br>
+            <textarea id="descricao" name="descricao"></textarea><br><br>
+
+            <label for="urgencia">Urgência (1 a 5):</label><br>
+            <input type="number" id="urgencia" name="urgencia" min="1" max="5"><br><br>
+
+            <label for="orgao">Órgão Competente:</label><br>
+            <select id="orgao" name="orgao">
+                <option value="orgao1">Órgão 1</option>
+                <option value="orgao2">Órgão 2</option>
+                <option value="orgao3">Órgão 3</option>
+            </select><br><br>
+
+            <label for="problema">Tipo de Problema:</label><br>
+            <select id="problema" name="problema">
+                <option value="problema1">Problema 1</option>
+                <option value="problema2">Problema 2</option>
+                <option value="problema3">Problema 3</option>
+            </select><br><br>
+
+            <button type="button" onclick="enviarDenuncia()">Enviar Denúncia</button>
+        </form>
+
+        <h2>Minhas Denúncias</h2>
+        <ul id="listaDenuncias">
+            <!-- Aqui serão exibidas as denúncias feitas pelo usuário -->
+        </ul>
+    </div>
+
+</body>
+</html>
