@@ -24,8 +24,8 @@ public class accessRestController {
         /////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////// CRUD for User //////////////////////////////////////////////
 
-        @PostMapping(value="/add-user")
-        public ResponseEntity<Object> addUser(@RequestBody User user){
+        @PostMapping(value="/login")
+        public ResponseEntity<Object> login(@RequestBody User user){
                 try {
                         String token="not authentic";
                         //acesso ao banco de dados para verificar a existencia do usuario
