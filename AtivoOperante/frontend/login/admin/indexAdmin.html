@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="cssAdmin.css">
     <script src="js.js"></script>
 </head>
-<body>
+<body onload="carregaDenuncias()">
     <div class="container">
         <h1>Administrar Denúncias</h1>
         
@@ -15,7 +15,7 @@
     
     <div id="formulario1">
         <h2>Inserir Tipo de Problema</h2>
-        <form>
+        <form id="formTipo" method="post" enctype="text/plain">
             <label for="problema">Tipo de Problema:</label><br>
             <input type="text" id="problema" name="problema"><br><br>
             <button onclick="cadastrarTipoProblema()">Inserir</button>
@@ -24,13 +24,19 @@
 
     <div id="formulario2">
         <h2>Órgão Competente</h2>
-        <form>
+        <form id="formOrgao">
             <label for="orgao">Órgão Competente:</label><br>
             <input type="text" id="orgao" name="orgao"><br><br>
             <button onclick="cadastrarOrgaoCompetente()">Inserir</button>
         </form>
     </div>
-        <br>
+    <br>
+    <div id="tabelaDen">
+        <form id="denForm">
+
+        </form>
+    </div>
+    <!--
         <table>
             <tr>
                 <th>ID</th>
@@ -70,6 +76,7 @@
                 </td>
             </tr>
         </table>
+    -->
     </div>
 
 </body>
