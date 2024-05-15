@@ -37,7 +37,7 @@ document.querySelectorAll('button').forEach(button => {
     //var denForm = document.getElementById("denForm");  //esse é para pesquisar uma denuncia especifica
 
     fetch(URL, {
-        method: 'POST', body: new FormData(denForm)
+        method: 'GET', body: new FormData(denForm)
     })
         .then(resp=>{
             return resp.json()
