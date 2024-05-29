@@ -60,14 +60,15 @@ public class citizenRestController {
 
     @PostMapping(value="/add-complaint")
     public ResponseEntity<Object> addComplaint(@RequestParam("title") String title,
-                                            @RequestParam("text") String text,
-                                            @RequestParam("urgency") int urgency,
-                                            @RequestParam("org_id") Long org_id,
+                                               @RequestParam("text") String text,
+                                               @RequestParam("urgency") int urgency,
+                                               @RequestParam("org_id") Long org_id,
                                                @RequestParam("tip_id") Long tip_id,
                                                @RequestParam("usu_id") Long usu_id,
                                                @RequestParam("image") MultipartFile image) {
         try {
-            Complaint complaint=null;
+            Complaint complaint = new Complaint();
+
             complaint.setTitle(title);
             complaint.setText(text);
             complaint.setUrgency(urgency);
@@ -78,7 +79,7 @@ public class citizenRestController {
 
             return new ResponseEntity<>(cpService.addComplaint(complaint,image),HttpStatus.OK);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("Erro ao enviar denuncia "+e.getMessage());
         }
     }

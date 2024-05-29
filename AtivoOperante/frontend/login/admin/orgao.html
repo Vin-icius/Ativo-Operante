@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Órgãos Competentes</title>
+    <link rel="stylesheet" href="cssAdmin.css">
+</head>
+<body>
+<div class="container">
+    <h1>Administrar Órgãos Competentes</h1>
+
+    <button onclick="exibirFormulario()">Inserir Órgão</button>
+
+    <div id="formulario">
+        <h2>Inserir Órgão Competente</h2>
+        <form id="formOrgao">
+            <label for="orgao">Órgão Competente:</label><br>
+            <input type="text" id="orgao" name="orgao"><br><br>
+            <button onclick="adicionarOrgaoCompetente()">Inserir</button>
+        </form>
+    </div>
+    <br>
+    <div id="tabelaOrgaos">
+
+    </div>
+</div>
+
+<script src="org.js"></script>
+</body>
+</html>

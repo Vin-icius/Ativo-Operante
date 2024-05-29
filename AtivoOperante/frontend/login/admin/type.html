@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Administrar Tipos de Problema</title>
+    <link rel="stylesheet" href="cssAdmin.css">
+</head>
+<body>
+<div class="container">
+    <h1>Administrar Tipos de Problema</h1>
+
+    <h2>Adicionar Novo Tipo de Problema</h2>
+    <form id="formTipo">
+        <label for="problema">Tipo de Problema:</label><br>
+        <input type="text" id="problema" name="problema" required><br><br>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Tipos de Problema Existente</h2>
+    <ul id="listaTipos">
+        <!-- Tipos de problema serão carregados dinamicamente pelo JavaScript -->
+    </ul>
+</div>
+
+<script src="type.js"></script>
+</body>
+</html>

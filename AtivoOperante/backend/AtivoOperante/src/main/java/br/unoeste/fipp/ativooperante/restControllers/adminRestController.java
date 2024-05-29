@@ -98,16 +98,26 @@ public class adminRestController {
         else
             return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
     }
+    @PostMapping("/edit-type")
+    public ResponseEntity<Object> editType(@RequestBody Type type) {
+        if(tpService.editType(type)) {
+            return new ResponseEntity<>("Tipo de problema editado com sucesso!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Falha ao editar tipo de problema.", HttpStatus.BAD_REQUEST);
+        }
+    }
     @PostMapping("/add-type")
     public ResponseEntity<Object> addType (@RequestBody Type type)
     {
         return new ResponseEntity<>(tpService.addType(type), HttpStatus.OK);
     }
+
     @GetMapping("/get-type")
     public ResponseEntity<Object> getType(@RequestParam(value="tip_id") Long tip_id)
     {
         return new ResponseEntity<>(tpService.getById(tip_id),HttpStatus.OK);
     }
+
     @GetMapping("/get-all-types")
     public ResponseEntity<Object> getAllTypes()
     {
