@@ -37,7 +37,7 @@ document.querySelectorAll('button').forEach(button => {
     //var denForm = document.getElementById("denForm");  //esse é para pesquisar uma denuncia especifica
 
     fetch(URL, {
-        method: 'GET', body: new FormData(denForm)
+        method: 'GET', body: new FormData(tag)
     })
         .then(resp=>{
             return resp.json()
@@ -57,9 +57,10 @@ document.querySelectorAll('button').forEach(button => {
                             <th>Ações</th>
                         </tr>
                         <tr>
-                            <td>${den}</td>
-                            <td>${den}</td>
-                            <td>${den}</td>
+                            <td>${den.id}</td>
+                            <td>${den.title}</td>
+                            <td>Pendente}</td>
+                            <td>${den.feedback}</td>
                             <td><input type="text"></td>
                             <td>
                                 <button>Deletar</button>
