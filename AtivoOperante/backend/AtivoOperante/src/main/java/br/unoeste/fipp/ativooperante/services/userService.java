@@ -21,6 +21,10 @@ public class userService {
         return userRepo.findAll();
     }
 
+    public User getByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
     public User addUser(User user){
         return userRepo.save(user);
     }

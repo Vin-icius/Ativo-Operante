@@ -168,11 +168,11 @@ ALTER SEQUENCE public.tipo_tip_id_seq OWNED BY public.tipo.tip_id;
 --
 
 CREATE TABLE public.usuario (
-    usu_id integer NOT NULL,
-    usu_cpf numeric(11,0) NOT NULL,
-    usu_email character varying(40) NOT NULL,
-    usu_senha numeric(6,0) NOT NULL,
-    usu_nivel numeric(1,0) NOT NULL
+    usu_id INTEGER NOT NULL,
+    usu_cpf VARCHAR(11) NOT NULL,
+    usu_email VARCHAR(40) NOT NULL,
+    usu_senha VARCHAR(16) NOT NULL,
+    usu_nivel NUMERIC(1,0) NOT NULL
 );
 
 
@@ -386,4 +386,3 @@ ALTER TABLE ONLY public.feedback
 --
 -- PostgreSQL database dump complete
 --
-

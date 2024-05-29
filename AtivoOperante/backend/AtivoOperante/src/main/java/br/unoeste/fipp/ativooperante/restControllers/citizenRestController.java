@@ -3,6 +3,7 @@ package br.unoeste.fipp.ativooperante.restControllers;
 
 
 import br.unoeste.fipp.ativooperante.dataBase.entities.Complaint;
+import br.unoeste.fipp.ativooperante.dataBase.entities.User;
 import br.unoeste.fipp.ativooperante.services.agencyService;
 import br.unoeste.fipp.ativooperante.services.complaintService;
 import br.unoeste.fipp.ativooperante.services.typeService;
@@ -27,7 +28,7 @@ public class citizenRestController {
     private typeService tpService;
     @Autowired
     private userService usService;
-
+    @CrossOrigin(origins = "http://localhost:63342")
     @GetMapping(value="connection-test")
     public String connectionTest(){
         return "connected";
@@ -38,6 +39,7 @@ public class citizenRestController {
     /////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////// CRUD for Agencies //////////////////////////////////////////////
 
+    @CrossOrigin(origins = "http://localhost:63342")
     @GetMapping("/get-all-agencies")
     public ResponseEntity<Object> getAllAgencies()
     {
@@ -80,4 +82,36 @@ public class citizenRestController {
             return ResponseEntity.badRequest().body("Erro ao enviar denuncia "+e.getMessage());
         }
     }
+
+    //Crud para user
+    @Autowired
+    private userService userService;
+
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PostMapping("/add-user")
+    public ResponseEntity<Object> addUser(@RequestBody User user) {
+        if (!User.isValidEmail(user.getEmail())) {
+            return ResponseEntity.badRequest().body("Email inválido");
+        }
+        if (!User.isValidPassword(user.getPassword())) {
+            return ResponseEntity.badRequest().body("Senha inválida");
+        }
+
+        try {
+            return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/get-user")
+    public ResponseEntity<Object> getUser(@RequestParam(value="usu_email") String usu_email) {
+        return new ResponseEntity<>(userService.getByEmail(usu_email),HttpStatus.OK);
+    }
+
+    @GetMapping("/get-all-users")
+    public ResponseEntity<Object> getAllUsers() {
+        return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
+    }
+    //---
 }

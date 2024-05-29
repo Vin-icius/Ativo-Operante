@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Citizen</title>
+    <link rel="stylesheet" href="../css/cssCitizen.css">
+
+</head>
+<body>
+<div class="container">
+    <h1>Formulário de Denúncias</h1>
+
+    <form id="formDenuncia">
+        <label for="titulo">Título:</label><br>
+        <input type="text" id="titulo" name="titulo"><br><br>
+
+        <label for="descricao">Descrição:</label><br>
+        <textarea id="descricao" name="descricao"></textarea><br><br>
+
+        <label for="urgencia">Urgência (1 a 5):</label><br>
+        <input type="number" id="urgencia" name="urgencia" min="1" max="5"><br><br>
+
+        <label for="orgao">Órgão Competente:</label><br>
+        <select id="orgao" name="orgao">
+            <!-- Options serão preenchidos dinamicamente -->
+        </select><br><br>
+
+        <label for="problema">Tipo de Problema:</label><br>
+        <select id="problema" name="problema">
+            <option value="problema1">Problema 1</option>
+            <option value="problema2">Problema 2</option>
+            <option value="problema3">Problema 3</option>
+        </select><br><br>
+
+        <button type="button" onclick="enviarDenuncia()">Enviar Denúncia</button>
+    </form>
+
+    <h2>Minhas Denúncias</h2>
+    <ul id="listaDenuncias">
+        <!-- Aqui serão exibidas as denúncias feitas pelo usuário -->
+    </ul>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Função para preencher o menu suspenso de órgãos com os órgãos já cadastrados
+        function preencherOrgaos() {
+            fetch('http://localhost:8080/apis/citizen/get-all-agencies')
+                .then(response => response.json())
+                .then(data => {
+                    // Limpar o menu suspenso de órgãos
+                    var selectOrgao = document.getElementById("orgao");
+                    selectOrgao.innerHTML = '';
+
+                    // Preencher o menu suspenso com os órgãos retornados
+                    data.forEach(orgao => {
+                        var option = document.createElement("option");
+                        option.value = orgao.id;
+                        option.text = orgao.name;
+                        selectOrgao.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Tratar o erro, se necessário
+                });
+        }
+
+        // Chamar a função para preencher o menu suspenso de órgãos quando a página é carregada
+        preencherOrgaos();
+
+        // Função para enviar a denúncia
+        function enviarDenuncia() {
+            // Implemente a lógica para enviar a denúncia para o servidor aqui
+            // Você pode acessar os valores dos campos do formulário usando document.getElementById().value
+        }
+    });
+</script>
+</body>
+</html>
