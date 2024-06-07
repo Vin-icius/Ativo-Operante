@@ -50,6 +50,15 @@ public class adminRestController {
     public ResponseEntity<Object> addAgency (@RequestBody Agency agency)
     {
         return new ResponseEntity<>(agService.addAgency(agency), HttpStatus.OK);
+
+    }
+    @PostMapping("/edit-agency")
+    public ResponseEntity<Object> editAgency(@RequestBody Agency agency) {
+        if(agService.editAgency(agency)) {
+            return new ResponseEntity<>("Orgao editado com sucesso!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Falha ao editar Orgao.", HttpStatus.BAD_REQUEST);
+        }
     }
     @GetMapping("/get-agency")
     public ResponseEntity<Object> getAgency(@RequestParam(value="org_id") Long org_id)

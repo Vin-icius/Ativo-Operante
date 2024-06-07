@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Órgãos e Tipos de Problema</title>
+    <link rel="stylesheet" href="cssAdmin.css">
+</head>
+<body>
+<div class="container">
+    <h1>Administrar Órgãos Competentes e Tipos de Problema</h1>
+
+    <button id="btnOrgaos">Órgãos Competentes</button>
+    <button id="btnTipos">Tipos de Problema</button>
+
+    <div id="formularioOrgao" style="display: none;">
+        <h2>Inserir Órgão Competente</h2>
+        <form id="formOrgao">
+            <label for="orgao">Órgão Competente:</label><br>
+            <input type="text" id="orgao" name="orgao" required><br><br>
+            <button type="submit">Inserir</button>
+        </form>
+        <div id="tabelaOrgaos">
+            <!-- Lista de órgãos será carregada dinamicamente pelo JavaScript -->
+        </div>
+    </div>
+    <br>
+    <div id="formularioTipo" style="display: none;">
+        <h2>Adicionar Novo Tipo de Problema</h2>
+        <form id="formTipo">
+            <label for="problema">Tipo de Problema:</label><br>
+            <input type="text" id="problema" name="problema" required><br><br>
+            <button type="submit">Adicionar</button>
+        </form>
+        <div id="listaTipos">
+            <h2>Tipos de Problema Existente</h2>
+            <ul id="tiposProblema">
+                <!-- Tipos de problema serão carregados dinamicamente pelo JavaScript -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="js.js"></script>
+</body>
+</html>

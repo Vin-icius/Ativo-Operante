@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @RestController
@@ -64,8 +65,7 @@ public class citizenRestController {
                                                @RequestParam("urgency") int urgency,
                                                @RequestParam("org_id") Long org_id,
                                                @RequestParam("tip_id") Long tip_id,
-                                               @RequestParam("usu_id") Long usu_id,
-                                               @RequestParam("image") MultipartFile image) {
+                                               @RequestParam("usu_id") Long usu_id) {
         try {
             Complaint complaint = new Complaint();
 
@@ -77,13 +77,22 @@ public class citizenRestController {
             complaint.setType(tpService.getById(tip_id));
             complaint.setUser(usService.getById(usu_id));
 
-            return new ResponseEntity<>(cpService.addComplaint(complaint,image),HttpStatus.OK);
+            return new ResponseEntity<>(cpService.addDenuncia(complaint), HttpStatus.OK);
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Erro ao enviar denuncia "+e.getMessage());
+            return ResponseEntity.badRequest().body("Erro ao enviar denuncia " + e.getMessage());
         }
     }
 
+    @GetMapping("get-complaints-by-email")
+    public ResponseEntity<List<Complaint>> getComplaintsByEmail(@RequestParam("email") String email) {
+        try {
+            List<Complaint> complaints = cpService.getComplaintsByUserEmail(email);
+            return ResponseEntity.ok(complaints);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
     //Crud para user
     @Autowired
     private userService userService;

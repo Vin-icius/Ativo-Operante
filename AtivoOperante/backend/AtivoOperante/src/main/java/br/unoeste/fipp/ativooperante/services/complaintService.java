@@ -1,6 +1,7 @@
 package br.unoeste.fipp.ativooperante.services;
 
 import br.unoeste.fipp.ativooperante.dataBase.entities.Complaint;
+import br.unoeste.fipp.ativooperante.dataBase.entities.Type;
 import br.unoeste.fipp.ativooperante.dataBase.repositories.complaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -29,22 +30,8 @@ public class complaintService{
         return true;
     }
 
-    public Complaint addComplaint(Complaint complaint, MultipartFile image) throws IOException {
-
-        File pasta_img = new File(getStaticPath()+"\\images");
-
-        String nomeArq;
-
-        complaint = complaintRepo.save(complaint);
-        if(!pasta_img.exists())
-            pasta_img.mkdir();
-
-        nomeArq=complaint.getId()+"."+extensao(image.getOriginalFilename());
-
-        Files.copy(image.getInputStream(),
-                Paths.get(pasta_img.getAbsolutePath()).resolve(nomeArq), StandardCopyOption.REPLACE_EXISTING);
-
-        return complaint;
+    public Complaint addDenuncia(Complaint complaint){
+        return complaintRepo.save(complaint);
     }
 
     public Complaint getById(Long id){
@@ -71,6 +58,10 @@ public class complaintService{
         staticPath = resourceLoader.getResource("classpath:static").getFile().getAbsolutePath();
         return staticPath;
     }
+    public List<Complaint> getComplaintsByUserEmail(String email) {
+        return complaintRepo.findByUserEmail(email);
+    }
+
 
     private String extensao(String extensao)
     {

@@ -19,4 +19,7 @@ public interface complaintRepository extends JpaRepository<Complaint, Long> {
             nativeQuery = true)
     public void addFeedback(@Param("den_id") Long den_id, @Param("texto") String texto);
 
+    @Query("SELECT c FROM Complaint c WHERE c.user.email = :email")
+    List<Complaint> findByUserEmail(@Param("email") String email);
+
 }

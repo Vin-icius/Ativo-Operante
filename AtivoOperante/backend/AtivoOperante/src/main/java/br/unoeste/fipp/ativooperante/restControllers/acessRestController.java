@@ -54,4 +54,18 @@ public class acessRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao obter usuário: " + e.getMessage());
         }
     }
+
+    @GetMapping("/get-id-by-email")
+    public ResponseEntity<Object> getIdByEmail(@RequestParam(value="email") String email) {
+        try {
+            User user = users.getByEmail(email);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+            }
+            return ResponseEntity.ok(user.getId());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao obter ID do usuário: " + e.getMessage());
+        }
+    }
+
 }
