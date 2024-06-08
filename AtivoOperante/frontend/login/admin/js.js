@@ -8,6 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
         mostrarAbaTipos();
     });
 
+    document.getElementById("btnDenuncias").addEventListener("click", function() {
+        mostrarAbaDenuncias();
+    });
+
     // Adicionar eventos de submit para os formulários
     const formOrgao = document.getElementById("formOrgao");
     formOrgao.addEventListener("submit", function(event) {
@@ -25,16 +29,79 @@ document.addEventListener("DOMContentLoaded", function() {
 function mostrarAbaOrgaos() {
     document.getElementById("formularioOrgao").style.display = 'block';
     document.getElementById("formularioTipo").style.display = 'none';
+    document.getElementById("formularioDenuncias").style.display = 'none';
     carregarOrgaosCompetentes(); // Carregar dados ao clicar na aba
 }
 
 function mostrarAbaTipos() {
     document.getElementById("formularioOrgao").style.display = 'none';
     document.getElementById("formularioTipo").style.display = 'block';
+    document.getElementById("formularioDenuncias").style.display = 'none';
     carregarTiposProblema(); // Carregar dados ao clicar na aba
 }
 
-// Funções para órgãos competentes
+function mostrarAbaDenuncias() {
+    document.getElementById("formularioOrgao").style.display = 'none';
+    document.getElementById("formularioTipo").style.display = 'none';
+    document.getElementById("formularioDenuncias").style.display = 'block';
+    carregarDenuncias(); // Carregar dados ao clicar na aba
+}
+
+function carregarDenuncias() {
+    const URL = "http://localhost:8080/apis/admin/get-all-complaints";
+    const tabelaDenuncias = document.getElementById("tabelaDenuncias");
+
+    fetch(URL)
+        .then(response => response.json())
+        .then(denuncias => {
+            tabelaDenuncias.innerHTML = ""; // Limpa a tabela antes de adicionar as novas denúncias
+            denuncias.forEach(denuncia => {
+                const agencyName = denuncia.agency ? denuncia.agency.name : "Não especificado";
+                const typeName = denuncia.type ? denuncia.type.name : "Não especificado";
+                const userName = denuncia.user ? denuncia.user.name : "Não especificado";
+                const userEmail = denuncia.user ? denuncia.user.email : "Não especificado";
+
+                const row = document.createElement("div");
+                row.classList.add("denuncia-row");
+                row.innerHTML = `
+                    <span><strong>Título:</strong> ${denuncia.title}</span>
+                    <span><strong>Texto:</strong> ${denuncia.text}</span>
+                    <span><strong>Urgência:</strong> ${denuncia.urgency}</span>
+                    <span><strong>Órgão:</strong> ${agencyName}</span>
+                    <span><strong>Data:</strong> ${denuncia.data}</span>
+                    <span><strong>Tipo:</strong> ${typeName}</span>
+                    <span><strong>Usuário:</strong> ${userName}</span>
+                    <span><strong>Email do Usuário:</strong> ${userEmail}</span>
+                    <button onclick="excluirDenuncia(${denuncia.id})">Excluir</button>
+                `;
+                tabelaDenuncias.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error("Erro ao carregar denúncias:", error);
+        });
+}
+
+function excluirDenuncia(denunciaId) {
+    const URL = `http://localhost:8080/apis/admin/delete-complaint?den_id=${denunciaId}`;
+
+    fetch(URL, {
+        method: 'GET'
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log("Denúncia excluída com sucesso!");
+                carregarDenuncias(); // Recarregar lista após excluir denúncia
+            } else {
+                console.error("Falha ao excluir denúncia.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao excluir denúncia:", error);
+        });
+}
+
+// Funções para órgãos competentes (já existentes)
 function carregarOrgaosCompetentes() {
     const URL = "http://localhost:8080/apis/admin/get-all-agencies";
     const tabelaOrgaos = document.getElementById("tabelaOrgaos");
@@ -131,7 +198,7 @@ function excluirOrgaoCompetente(orgaoId) {
         });
 }
 
-// Funções para tipos de problema
+// Funções para tipos de problema (já existentes)
 function carregarTiposProblema() {
     const URL = "http://localhost:8080/apis/admin/get-all-types";
     const listaTipos = document.getElementById("tiposProblema");
