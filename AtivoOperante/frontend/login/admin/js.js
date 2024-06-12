@@ -24,6 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault(); // Impede o envio padrão do formulário
         adicionarTipoProblema();
     });
+
+    const formFeedback = document.getElementById("formFeedback");
+    formFeedback.addEventListener("submit", function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+        enviarFeedback();
+    });
 });
 
 function mostrarAbaOrgaos() {
@@ -60,6 +66,7 @@ function carregarDenuncias() {
                 const typeName = denuncia.type ? denuncia.type.name : "Não especificado";
                 const userName = denuncia.user ? denuncia.user.name : "Não especificado";
                 const userEmail = denuncia.user ? denuncia.user.email : "Não especificado";
+                const feedback = denuncia.feedback ? denuncia.feedback.text : "Sem feedback";
 
                 const row = document.createElement("div");
                 row.classList.add("denuncia-row");
@@ -72,6 +79,8 @@ function carregarDenuncias() {
                     <span><strong>Tipo:</strong> ${typeName}</span>
                     <span><strong>Usuário:</strong> ${userName}</span>
                     <span><strong>Email do Usuário:</strong> ${userEmail}</span>
+                    <span><strong>Feedback:</strong> ${feedback}</span>
+                    ${feedback === "Sem feedback" ? `<button onclick="mostrarFormFeedback(${denuncia.id})">Adicionar Feedback</button>` : ''}
                     <button onclick="excluirDenuncia(${denuncia.id})">Excluir</button>
                 `;
                 tabelaDenuncias.appendChild(row);
@@ -81,6 +90,35 @@ function carregarDenuncias() {
             console.error("Erro ao carregar denúncias:", error);
         });
 }
+function mostrarFormFeedback(denunciaId) {
+    const feedbackForm = document.getElementById("feedbackForm");
+    feedbackForm.style.display = 'block';
+    feedbackForm.dataset.denunciaId = denunciaId;
+}
+
+function enviarFeedback() {
+    const denunciaId = document.getElementById("feedbackForm").dataset.denunciaId;
+    const feedbackInput = document.getElementById("feedback").value;
+    const URL = `http://localhost:8080/apis/admin/add-feedback?den_id=${denunciaId}&feedback=${encodeURIComponent(feedbackInput)}`;
+
+    fetch(URL, {
+        method: 'POST',
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log("Feedback inserido com sucesso!");
+                document.getElementById("feedback").value = ''; // Limpar o campo de entrada
+                document.getElementById("feedbackForm").style.display = 'none'; // Esconder o formulário
+                carregarDenuncias(); // Recarregar a lista de denúncias para refletir as mudanças
+            } else {
+                console.error("Falha ao inserir feedback.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao inserir feedback:", error);
+        });
+}
+
 
 function excluirDenuncia(denunciaId) {
     const URL = `http://localhost:8080/apis/admin/delete-complaint?den_id=${denunciaId}`;

@@ -108,7 +108,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     var listItem = document.createElement("li");
                     var agencyName = denuncia.agency ? denuncia.agency.name : "N/A";
                     var tipoName = denuncia.type ? denuncia.type.name : "N/A";
-                    listItem.textContent = `Título: ${denuncia.title}, Descrição: ${denuncia.text}, Urgência: ${denuncia.urgency}, Órgão: ${agencyName}, Tipo: ${tipoName}`;
+                    var feedbackText = denuncia.feedback ? denuncia.feedback.text : "Sem feedback"; // Verifica se há feedback
+                    listItem.textContent = `Título: ${denuncia.title}, Descrição: ${denuncia.text}, Urgência: ${denuncia.urgency}, Órgão: ${agencyName}, Tipo: ${tipoName}, Feedback: ${feedbackText}`; // Inclui o feedback no texto
                     listaDenuncias.appendChild(listItem);
                 });
             })

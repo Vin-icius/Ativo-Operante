@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     localStorage.setItem('userId', userId); // Armazena o userId
 
                     if (nivel === 1) {
-                        //window.location.href = 'home-administrador.html';
+                        window.location.href = "../../admin/indexAdmin.html";
                     } else if (nivel === 2) {
                         window.location.href = "../html/indexCitizen.html";
                     } else {

@@ -1,8 +1,10 @@
 package br.unoeste.fipp.ativooperante.dataBase.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="denuncia")
@@ -29,14 +31,15 @@ public class Complaint {
     @JoinColumn(name="usu_id", nullable = false) // nome da coluna que vai referenciar, e se pode ou não ser nula, nesse caso não pode ser NOT_NULL
     private User user;
 
-    @OneToOne(mappedBy="denuncia")
+    @JsonIgnoreProperties("denuncia")
+    @OneToOne(mappedBy = "denuncia")
     private Feedback feedback;
 
     public Complaint() {
-        this(0L,"","",0,null, null,null,null);
+        this(0L,"","",0,null, null,null,null,null);
     }
 
-    public Complaint(Long id, String title, String text, int urgency, Agency org_id, LocalDate data, Type tip_id, User user) {
+    public Complaint(Long id, String title, String text, int urgency, Agency org_id, LocalDate data, Type tip_id, User user, Feedback feedback) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -45,6 +48,19 @@ public class Complaint {
         this.data = data;
         this.type = tip_id;
         this.user = user;
+    }
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public Feedback getFeedback() {
+        return feedback;
+    }
+
+
+    public void setFeedback(Feedback feedback) {
+        this.feedback = feedback;
     }
 
     public Long getId() {

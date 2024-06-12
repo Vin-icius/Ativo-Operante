@@ -2,9 +2,11 @@ package br.unoeste.fipp.ativooperante.restControllers;
 
 import br.unoeste.fipp.ativooperante.dataBase.entities.Agency;
 import br.unoeste.fipp.ativooperante.dataBase.entities.Complaint;
+import br.unoeste.fipp.ativooperante.dataBase.entities.Feedback;
 import br.unoeste.fipp.ativooperante.dataBase.entities.Type;
 import br.unoeste.fipp.ativooperante.services.agencyService;
 import br.unoeste.fipp.ativooperante.services.complaintService;
+import br.unoeste.fipp.ativooperante.services.feedbackService;
 import br.unoeste.fipp.ativooperante.services.typeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,11 +31,37 @@ public class adminRestController {
     @Autowired
     private typeService tpService;
 
+    @Autowired
+    private feedbackService fbService;
+
     @GetMapping(value="connection-test")
     public String connectionTest(){
         return "connected";
     }
 
+        //Feedback
+        @PostMapping("/add-feedback")
+        public ResponseEntity<Object> addFeedback(@RequestParam("den_id") Long den_id,
+                                                  @RequestParam("feedback") String feedback) {
+            try {
+                Complaint c = cpService.getById(den_id);
+
+                if (c == null) {
+                    return new ResponseEntity<>("Denúncia não encontrada para o ID fornecido", HttpStatus.NOT_FOUND);
+                }
+
+                Feedback f = new Feedback();
+                f.setText(feedback);
+                f.setDenuncia(c);
+                fbService.addFeedback(f);
+                c.setFeedback(f);
+
+                return ResponseEntity.ok("Feedback inserido com sucesso.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Erro ao inserir ação: " + e.getMessage());}
+        }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////// CRUD for Agencies //////////////////////////////////////////////
@@ -136,15 +164,8 @@ public class adminRestController {
     /////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////// CRUD for Feedbacks //////////////////////////////////////////////
 
-    @PostMapping("/add-feedback")
-    public ResponseEntity<Object> addFeedback(@RequestParam("den_id") Long den_id,
-                                              @RequestParam("feedback") String feedback)
-    {
-        if(cpService.addFeed(den_id,feedback))
-            return new ResponseEntity<>("",HttpStatus.OK);
-        else
-            return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
-    }
+    /*
+    */
 
 
 

@@ -12,16 +12,33 @@ public class Feedback {
     @Column(name="fee_texto")
     private String text;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name="den_id")
     private Complaint denuncia;
 
     public Feedback() {
-        this(0L,"");
+        this(0L,"",null);
     }
 
-    public Feedback(Long id, String text) {
+    public Feedback(Long id, String text, Complaint denuncia) {
         this.id = id;
+        this.text = text;
+        this.denuncia = denuncia;
+    }
+
+    public Complaint getDenuncia() {
+        return denuncia;
+    }
+
+    public void setDenuncia(Complaint denuncia) {
+        this.denuncia = denuncia;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
         this.text = text;
     }
 
